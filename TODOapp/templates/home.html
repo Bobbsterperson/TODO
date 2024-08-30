@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .button-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .styled-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 0.5em 1em;
-            font-size: 1rem;
-            border-radius: 0.25em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .styled-button:hover {
-            background-color: #0056b3;
-        }
-
-        .styled-button:active {
-            background-color: #004080;
-            box-shadow: 0 0.25em #666;
-            transform: translateY(0.25em);
-        }
-
-        .styled-button:focus {
-            outline: none;
-        }
-
-        .text-field {
-            margin-left: 0.5em;
-            padding: 0.5em;
-            border: 1px solid #ccc;
-            border-radius: 0.25em;
-            font-size: 1rem;
-            width: 200px;
-        }
-    </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .button-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1em;
+            }
+    
+            .styled-button {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 0.5em 1em;
+                font-size: 1rem;
+                border-radius: 0.25em;
+                cursor: pointer;
+                transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            }
+    
+            .styled-button:hover {
+                background-color: #0056b3;
+            }
+    
+            .styled-button:active {
+                background-color: #004080;
+                box-shadow: 0 0.25em #666;
+                transform: translateY(0.25em);
+            }
+    
+            .styled-button:focus {
+                outline: none;
+            }
+    
+            .text-field {
+                margin-left: 0.5em;
+                padding: 0.5em;
+                border: 1px solid #ccc;
+                border-radius: 0.25em;
+                font-size: 1rem;
+                width: 200px;
+            }
+    
+            .task-list {
+                margin-top: 1em;
+            }
+    
+            .task-box {
+                background-color: #c5e1fd;
+                border: 1px solid #ddd;
+                border-radius: 0.25em;
+                padding: 0.5em;
+                margin-top: 0.5em;
+                width: 30%;
+                box-sizing: border-box;
+                position: relative;
+            }
+            .task-checkbox {
+                position: absolute;
+                top: 0.5em;
+                right: 0.5em;
+            }
+            .task-input {
+                background-color: #aed3f8;
+                border: 1px solid #ddd;
+                border-radius: 0.25em;
+                padding: 0.5em;
+                margin-top: 0.5em;
+                width: 30%;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
 <body>
     <h1>To Do List</h1>
     <form method="post">
@@ -53,5 +83,16 @@
             <input type="text" class="text-field" name="task" placeholder="Enter task here">
         </div>
     </form>
+    
+    {% if tasks %}
+        <div class="task-list">
+            {% for task in tasks %}
+                <div class="task-box">
+                    {{ task }}
+                    <input type="checkbox" class="task-checkbox" value="Done">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </body>
 </html>
