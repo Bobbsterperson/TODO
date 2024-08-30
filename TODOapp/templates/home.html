@@ -54,6 +54,8 @@
       }
 
       .task-list {
+        display: flex;
+        flex-direction: column;
         margin-top: 1em;
       }
 
@@ -66,6 +68,12 @@
         width: 30%;
         box-sizing: border-box;
         position: relative;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .task-box.completed {
+        transform: translateX(100vw);
+        opacity: 0.5;
       }
 
       .task-checkbox {
@@ -77,7 +85,7 @@
   </head>
   <body>
     <div class="container">
-      <form method="post">
+      <form method="post" id="task-form">
         {% csrf_token %}
         <div class="button-container">
           <input type="submit" class="styled-button" value="Add Task" />
@@ -87,20 +95,21 @@
             name="task"
             placeholder="Enter task here"
           />
-          <button type="button" class="additional-button">mark as done</button>
+          <button type="button" class="additional-button" id="mark-done">
+            Mark as Done
+          </button>
         </div>
       </form>
     </div>
-
-    {% if tasks %}
-    <div class="task-list">
-      {% for task in tasks %}
-      <div class="task-box">
-        {{ task }}
-        <input type="checkbox" class="task-checkbox" value="Done" />
-      </div>
-      {% endfor %}
+    <div class="task-list" id="task-list">
+      {% if tasks %}
+        {% for task in tasks %}
+          <div class="task-box">
+            {{ task.TODO }}
+            <input type="checkbox" class="task-checkbox" />
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
-    {% endif %}
   </body>
 </html>
