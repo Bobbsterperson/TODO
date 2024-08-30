@@ -14,7 +14,7 @@ def delete_selected(modeladmin, request, queryset):
         todo.delete()
 
 class TODOAdmin(admin.ModelAdmin):
-    list_display = ('TODO',)
+    list_display = ('TODO', 'created_at')
     actions = [mark_as_done, delete_selected]
 
 admin.site.register(TODO, TODOAdmin)
