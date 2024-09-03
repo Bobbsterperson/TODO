@@ -11,12 +11,10 @@
             margin: 0;
             padding: 20px;
         }
-
         h1 {
             color: #333;
             text-align: center;
         }
-
         a {
             text-decoration: none;
             color: white;
@@ -25,72 +23,57 @@
             border-radius: 4px;
             margin-right: 10px;
         }
-
         a:hover {
             background-color: #45a049;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         table, th, td {
             border: 1px solid #ddd;
         }
-
         th, td {
             padding: 12px;
             text-align: left;
         }
-
         th {
             background-color: #f2f2f2;
             color: #333;
         }
-
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-
         tr:hover {
             background-color: #f1f1f1;
         }
-
         td a {
             margin-right: 5px;
             padding: 6px 10px;
         }
-
         td a.edit {
             background-color: #2196F3;
         }
-
         td a.delete {
             background-color: #f44336;
         }
-
         td a.finish {
             background-color: #4CAF50;
         }
-
         td a.unfinish {
             background-color: #ff9800;
         }
-
         .add-task {
             background-color: #4CAF50;
             margin-bottom: 10px;
             display: inline-block;
         }
-
         .no-items {
             text-align: center;
             font-weight: bold;
             color: #999;
         }
-
         details {
             margin-top: 10px;
             background-color: #fff;
@@ -98,24 +81,20 @@
             border-radius: 5px;
             border: 1px solid #ddd;
         }
-
         summary {
             cursor: pointer;
             font-weight: bold;
             color: #4CAF50;
         }
-
         .details-content {
             margin-top: 10px;
             color: #666;
         }
-
         .section-header {
             margin-top: 30px;
             font-size: 18px;
             color: #333;
         }
-
         .completed-task {
             text-decoration: line-through;
             color: #777;
@@ -126,16 +105,13 @@
 
     <h1>To-Do List</h1>
     <a href="{% url 'task-create' %}" class="add-task">Add Task</a>
-
-    <!-- Not Completed Tasks Section -->
     <h2 class="section-header">Pending Tasks</h2>
     <table>
         <tr>
             <th>Item</th>
             <th>Actions</th>
         </tr>
-        {% for TODO in todos %}
-        {% if not TODO.completed %}
+        {% for TODO in incomplete_tasks %}
         <tr>
             <td>
                 <strong>{{ TODO.title }}</strong>
@@ -149,28 +125,24 @@
                 </details>
             </td>
             <td>
-                <a href="{% url 'task-complete' TODO.id %}" class="finish">Finish</a>
+                <a href="{% url 'task-toggle' TODO.id %}" class="finish">Finish</a>
                 <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
                 <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
             </td>
         </tr>
-        {% endif %}
         {% empty %}
         <tr>
             <td colspan="2" class="no-items">No items in the list</td>
         </tr>
         {% endfor %}
     </table>
-
-    <!-- Completed Tasks Section -->
     <h2 class="section-header">Completed Tasks</h2>
     <table>
         <tr>
             <th>Item</th>
             <th>Actions</th>
         </tr>
-        {% for TODO in todos %}
-        {% if TODO.completed %}
+        {% for TODO in completed_tasks %}
         <tr>
             <td>
                 <strong class="completed-task">{{ TODO.title }}</strong>
@@ -184,12 +156,11 @@
                 </details>
             </td>
             <td>
-                <a href="{% url 'task-incomplete' TODO.id %}" class="unfinish">Unfinish</a>
+                <a href="{% url 'task-toggle' TODO.id %}" class="unfinish">Unfinish</a>
                 <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
                 <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
             </td>
         </tr>
-        {% endif %}
         {% empty %}
         <tr>
             <td colspan="2" class="no-items">No completed tasks</td>
