@@ -71,6 +71,14 @@
             background-color: #f44336;
         }
 
+        td a.finish {
+            background-color: #4CAF50;
+        }
+
+        td a.unfinish {
+            background-color: #ff9800;
+        }
+
         .add-task {
             background-color: #4CAF50;
             margin-bottom: 10px;
@@ -107,6 +115,11 @@
             font-size: 18px;
             color: #333;
         }
+
+        .completed-task {
+            text-decoration: line-through;
+            color: #777;
+        }
     </style>
 </head>
 <body>
@@ -136,6 +149,7 @@
                 </details>
             </td>
             <td>
+                <a href="{% url 'task-complete' TODO.id %}" class="finish">Finish</a>
                 <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
                 <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
             </td>
@@ -159,7 +173,7 @@
         {% if TODO.completed %}
         <tr>
             <td>
-                <strong>{{ TODO.title }}</strong>
+                <strong class="completed-task">{{ TODO.title }}</strong>
                 <details>
                     <summary>View Details</summary>
                     <div class="details-content">
@@ -170,6 +184,7 @@
                 </details>
             </td>
             <td>
+                <a href="{% url 'task-incomplete' TODO.id %}" class="unfinish">Unfinish</a>
                 <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
                 <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
             </td>

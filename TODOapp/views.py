@@ -1,5 +1,5 @@
 # TODOapp/views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import TODO
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -44,9 +44,14 @@ class DeleteView(DeleteView):
     success_url = reverse_lazy('TODOs')
 
 
-# class Completed(CreateView):
-#     model = TODO
-#     fields = '__all__'
-#     template_name = 'TODOapp/task_form.html'
-#     success_url = reverse_lazy('TODOs')
+def mark_complete(request, pk):
+    task = get_object_or_404(TODO, pk=pk)
+    task.completed = True
+    task.save()
+    return redirect('TODOs')
 
+def mark_incomplete(request, pk):
+    task = get_object_or_404(TODO, pk=pk)
+    task.completed = False
+    task.save()
+    return redirect('TODOs')
