@@ -9,6 +9,12 @@ from django.urls import reverse_lazy
 class TaskList(ListView):
     model = TODO
     context_object_name = 'todos'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['incomplete_tasks'] = TODO.objects.filter(completed=False)
+        context['completed_tasks'] = TODO.objects.filter(completed=True)
+        return context
+
    
 
 class TaskDetail(DetailView):
@@ -33,20 +39,14 @@ class TaskUpdate(UpdateView):
 
 class DeleteView(DeleteView):
     model = TODO
-    context_object_name = 'TODO'
+    context_object_name = 'title'
     template_name = 'TODOapp/task_confirm_delete.html'
     success_url = reverse_lazy('TODOs')
 
-# def add(request):
-#     if request.method == 'POST':
-#         if 'task' in request.POST:
-#             task_text = request.POST.get('task')
-#             TODO.objects.create(TODO=task_text)
-#         elif 'mark_done' in request.POST:
-#             completed_ids = request.POST.getlist('completed_tasks')
-#             TODO.objects.filter(id__in=completed_ids).update(completed=True)
-#         return redirect('home')
 
-#     tasks = TODO.objects.filter(completed=False)
-#     completed_tasks = TODO.objects.filter(completed=True)
-#     return render(request, 'home.html', {'tasks': tasks, 'completed_tasks': completed_tasks})
+# class Completed(CreateView):
+#     model = TODO
+#     fields = '__all__'
+#     template_name = 'TODOapp/task_form.html'
+#     success_url = reverse_lazy('TODOs')
+

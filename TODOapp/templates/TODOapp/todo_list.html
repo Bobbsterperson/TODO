@@ -1,20 +1,144 @@
-<h1>To-Do List</h1>
-<a href="{% url 'task-create' %}">add task</a>
-<table>
-    <tr>
-        <th>Item</th>
-        <th>Actions</th>
-    </tr>
-    {% for TODO in todos %}
-    <tr>
-        <td>{{ TODO.TODO }}</td>
-        <td><a href="{% url 'task_detail' TODO.id %}">View</a></td>
-        <td><a href="{% url 'task-update' TODO.id %}">edit</a></td>
-        <td><a href="{% url 'task_confirm_delete' TODO.id %}">delete</a></td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="2"><h3>No items in the list</h3></td>
-    </tr>
-    {% endfor %}
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td a {
+            margin-right: 5px;
+            padding: 6px 10px;
+        }
+
+        td a.edit {
+            background-color: #2196F3;
+        }
+
+        td a.delete {
+            background-color: #f44336;
+        }
+
+        td a.view {
+            background-color: #ff9800;
+        }
+
+        .add-task {
+            background-color: #4CAF50;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .no-items {
+            text-align: center;
+            font-weight: bold;
+            color: #999;
+        }
+
+        .section-title {
+            margin-top: 40px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>To-Do List</h1>
+    <a href="{% url 'task-create' %}" class="add-task">Add Task</a>
+
+    <!-- Incomplete Tasks -->
+    <h2 class="section-title">Incomplete Tasks</h2>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th colspan="3">Actions</th>
+        </tr>
+        {% for TODO in incomplete_tasks %}
+        <tr>
+            <td>{{ TODO.title }}</td>
+            <td><a href="{% url 'task_detail' TODO.id %}" class="view">View</a></td>
+            <td><a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a></td>
+            <td><a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="no-items">No incomplete tasks</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Completed Tasks -->
+    <h2 class="section-title">Completed Tasks</h2>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th colspan="3">Actions</th>
+        </tr>
+        {% for TODO in completed_tasks %}
+        <tr>
+            <td>{{ TODO.title }}</td>
+            <td><a href="{% url 'task_detail' TODO.id %}" class="view">View</a></td>
+            <td><a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a></td>
+            <td><a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="no-items">No completed tasks</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
