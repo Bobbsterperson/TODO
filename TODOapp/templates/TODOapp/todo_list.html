@@ -71,10 +71,6 @@
             background-color: #f44336;
         }
 
-        td a.view {
-            background-color: #ff9800;
-        }
-
         .add-task {
             background-color: #4CAF50;
             margin-bottom: 10px;
@@ -87,9 +83,29 @@
             color: #999;
         }
 
-        .section-title {
-            margin-top: 40px;
-            color: #555;
+        details {
+            margin-top: 10px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .details-content {
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .section-header {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
@@ -98,44 +114,70 @@
     <h1>To-Do List</h1>
     <a href="{% url 'task-create' %}" class="add-task">Add Task</a>
 
-    <!-- Incomplete Tasks -->
-    <h2 class="section-title">Incomplete Tasks</h2>
+    <!-- Not Completed Tasks Section -->
+    <h2 class="section-header">Pending Tasks</h2>
     <table>
         <tr>
             <th>Item</th>
-            <th colspan="3">Actions</th>
+            <th>Actions</th>
         </tr>
-        {% for TODO in incomplete_tasks %}
+        {% for TODO in todos %}
+        {% if not TODO.completed %}
         <tr>
-            <td>{{ TODO.title }}</td>
-            <td><a href="{% url 'task_detail' TODO.id %}" class="view">View</a></td>
-            <td><a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a></td>
-            <td><a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a></td>
+            <td>
+                <strong>{{ TODO.title }}</strong>
+                <details>
+                    <summary>View Details</summary>
+                    <div class="details-content">
+                        <p><strong>Date:</strong> {{ TODO.created_at|date:"F j, Y, g:i a" }}</p>
+                        <p><strong>Notes:</strong> {{ TODO.Notes }}</p>
+                        <p><strong>Category:</strong> {{ TODO.category }}</p>
+                    </div>
+                </details>
+            </td>
+            <td>
+                <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
+                <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
+            </td>
         </tr>
+        {% endif %}
         {% empty %}
         <tr>
-            <td colspan="4" class="no-items">No incomplete tasks</td>
+            <td colspan="2" class="no-items">No items in the list</td>
         </tr>
         {% endfor %}
     </table>
 
-    <!-- Completed Tasks -->
-    <h2 class="section-title">Completed Tasks</h2>
+    <!-- Completed Tasks Section -->
+    <h2 class="section-header">Completed Tasks</h2>
     <table>
         <tr>
             <th>Item</th>
-            <th colspan="3">Actions</th>
+            <th>Actions</th>
         </tr>
-        {% for TODO in completed_tasks %}
+        {% for TODO in todos %}
+        {% if TODO.completed %}
         <tr>
-            <td>{{ TODO.title }}</td>
-            <td><a href="{% url 'task_detail' TODO.id %}" class="view">View</a></td>
-            <td><a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a></td>
-            <td><a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a></td>
+            <td>
+                <strong>{{ TODO.title }}</strong>
+                <details>
+                    <summary>View Details</summary>
+                    <div class="details-content">
+                        <p><strong>Date:</strong> {{ TODO.created_at|date:"F j, Y, g:i a" }}</p>
+                        <p><strong>Notes:</strong> {{ TODO.Notes }}</p>
+                        <p><strong>Category:</strong> {{ TODO.category }}</p>
+                    </div>
+                </details>
+            </td>
+            <td>
+                <a href="{% url 'task-update' TODO.id %}" class="edit">Edit</a>
+                <a href="{% url 'task_confirm_delete' TODO.id %}" class="delete">Delete</a>
+            </td>
         </tr>
+        {% endif %}
         {% empty %}
         <tr>
-            <td colspan="4" class="no-items">No completed tasks</td>
+            <td colspan="2" class="no-items">No completed tasks</td>
         </tr>
         {% endfor %}
     </table>
